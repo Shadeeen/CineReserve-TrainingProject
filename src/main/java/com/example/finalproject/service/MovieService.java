@@ -1,4 +1,5 @@
 package com.example.finalproject.service;
+
 import com.example.finalproject.dto.movie.CreatMovieDTO;
 import com.example.finalproject.dto.movie.MovieMapper;
 import com.example.finalproject.dto.movie.ReadMovieDTO;
@@ -170,8 +171,6 @@ public class MovieService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("releaseDate").descending());
 
         return movieRepository
-                .movieSearch(fromDate, toDate, genres, memberName,pageable).map(movie->readMovie(movie));
+                .movieSearch(fromDate, toDate, genres, memberName, pageable).map(movie -> readMovie(movie));
     }
-
-
 }

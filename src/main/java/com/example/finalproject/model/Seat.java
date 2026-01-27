@@ -4,20 +4,20 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name="seats")
 @Where(clause = "deleted_at IS NULL")
+@Table(name = "seats", uniqueConstraints = @UniqueConstraint(columnNames = {"hall_id", "seat_row", "seat_column"}))
 public class Seat extends Basic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="seat_id")
+    @Column(name = "seat_id")
     private Long seatId;
 
     private String status;
 
-    @JoinColumn(name = "seat_column")
+    @Column(name = "seat_column")
     private int seatColumn;
 
-    @JoinColumn(name = "seat_row")
+    @Column(name = "seat_row")
     private int seatRow;
 
     @ManyToOne
@@ -32,8 +32,6 @@ public class Seat extends Basic {
         this.seatId = seatId;
     }
 
-
-
     public Hall getHall() {
         return hall;
     }
@@ -41,8 +39,6 @@ public class Seat extends Basic {
     public void setHall(Hall hall) {
         this.hall = hall;
     }
-
-
 
     public String getStatus() {
         return status;

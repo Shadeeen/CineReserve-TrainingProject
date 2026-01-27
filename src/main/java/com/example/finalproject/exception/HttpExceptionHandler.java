@@ -99,5 +99,52 @@ public class HttpExceptionHandler {
 
 
     }
+    @ExceptionHandler(InvalidSeatId.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidSeat(InvalidSeatId ex) {
 
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of(
+                        "timestamp", LocalDateTime.now(),
+                        "status", 401,
+                        "error", "Unauthorized",
+                        "message", ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(InvalidHallId.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidHallId(InvalidHallId ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of(
+                        "timestamp", LocalDateTime.now(),
+                        "status", 404,
+                        "error", "Not Found",
+                        "message", ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(OverLappingScreening.class)
+    public ResponseEntity<Map<String, Object>> handleOverLappingScreening(OverLappingScreening ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of(
+                        "timestamp", LocalDateTime.now(),
+                        "status", 400,
+                        "error", "Bad Request",
+                        "message", ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(InvalidDate.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidDate(InvalidDate ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of(
+                        "timestamp", LocalDateTime.now(),
+                        "status", 400,
+                        "error", "Bad Request",
+                        "message", ex.getMessage()
+                ));
+    }
 }

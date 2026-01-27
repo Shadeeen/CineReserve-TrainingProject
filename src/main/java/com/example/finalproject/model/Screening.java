@@ -3,26 +3,32 @@ package com.example.finalproject.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Where;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Where(clause = "deleted_at IS NULL")
-public class Screening extends Basic{
+@Table(
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {"hall_id", "start_time"}
+
+        )
+)
+public class Screening extends Basic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="screening_id")
+    @Column(name = "screening_id")
     private Long screeningId;
 
-    @Column(name="start_time")
-    private Date startTime;
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id")
+    @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
     @ManyToOne
-    @JoinColumn(name = "hall_id")
+    @JoinColumn(name = "hall_id", nullable = false)
     private Hall hall;
 
     public Long getScreeningId() {
@@ -33,11 +39,11 @@ public class Screening extends Basic{
         this.screeningId = screeningId;
     }
 
-    public Date getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 

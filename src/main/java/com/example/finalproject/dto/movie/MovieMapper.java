@@ -1,4 +1,5 @@
 package com.example.finalproject.dto.movie;
+
 import com.example.finalproject.model.Movie;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
