@@ -1,6 +1,6 @@
 package com.example.finalproject.service;
 
-import com.example.finalproject.exception.InvalidHallName;
+import com.example.finalproject.exception.BadRequestException;
 import com.example.finalproject.model.Hall;
 import com.example.finalproject.model.Seat;
 import com.example.finalproject.repository.HallRepository;
@@ -36,7 +36,7 @@ public class HallService {
 
             return hallRepository.save(hall);
         } catch (DataIntegrityViolationException e) {
-            throw new InvalidHallName("Hall name already exists");
+            throw new BadRequestException("Hall name already exists");
         }
     }
 

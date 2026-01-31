@@ -1,6 +1,8 @@
 
-package com.example.finalproject.dto.hall;
+package com.example.finalproject.mapper;
 
+import com.example.finalproject.dto.hall.HallResponseDto;
+import com.example.finalproject.dto.hall.ResponseSeatDto;
 import com.example.finalproject.model.Hall;
 import com.example.finalproject.model.Seat;
 import org.mapstruct.Mapper;

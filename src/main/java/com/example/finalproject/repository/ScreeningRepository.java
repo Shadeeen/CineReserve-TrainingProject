@@ -2,6 +2,7 @@ package com.example.finalproject.repository;
 
 import com.example.finalproject.model.Screening;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -26,5 +27,13 @@ public interface ScreeningRepository extends JpaRepository<Screening, Long> {
                           @Param("newStart") LocalDateTime newStart,
                           @Param("end") LocalDateTime end);
 
-
+    @Modifying
+    @Query("""
+        update Screening s
+        set s.deletedAt = :now
+        where s.movie.movieId = :movieId
+          and s.deletedAt is null
+    """)
+    int softDeleteByMovieId(@Param("movieId") Long movieId,
+                            @Param("now") LocalDateTime now);
 }

@@ -1,7 +1,7 @@
 package com.example.finalproject.controller;
 
 
-import com.example.finalproject.dto.hall.HallMapper;
+import com.example.finalproject.mapper.HallMapper;
 import com.example.finalproject.dto.hall.HallResponseDto;
 import com.example.finalproject.model.Hall;
 import com.example.finalproject.service.HallService;

@@ -1,16 +1,15 @@
 package com.example.finalproject.service;
 
 import com.example.finalproject.dto.movie.CreatMovieDTO;
-import com.example.finalproject.dto.movie.MovieMapper;
+import com.example.finalproject.exception.NotFoundException;
+import com.example.finalproject.mapper.MovieMapper;
 import com.example.finalproject.dto.movie.ReadMovieDTO;
 import com.example.finalproject.dto.movie.UpdateMovieDTO;
-import com.example.finalproject.exception.InvalidCastMember;
-import com.example.finalproject.exception.InvalidGenreException;
-import com.example.finalproject.exception.InvalidMovieId;
 import com.example.finalproject.model.*;
 import com.example.finalproject.repository.CastMemberRepository;
 import com.example.finalproject.repository.GenreRepository;
 import com.example.finalproject.repository.MovieRepository;
+import com.example.finalproject.repository.ScreeningRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -31,12 +30,14 @@ public class MovieService {
     GenreRepository genreRepository;
     CastMemberRepository castMemberRepository;
     MovieMapper movieMapper;
+    ScreeningRepository screeningRepository;
 
-    public MovieService(MovieRepository movieRepository, GenreRepository genreRepository, CastMemberRepository castMemberRepository, MovieMapper movieMapper) {
+    public MovieService(MovieRepository movieRepository, GenreRepository genreRepository, CastMemberRepository castMemberRepository, MovieMapper movieMapper, ScreeningRepository screeningRepository) {
         this.movieRepository = movieRepository;
         this.genreRepository = genreRepository;
         this.castMemberRepository = castMemberRepository;
         this.movieMapper = movieMapper;
+        this.screeningRepository = screeningRepository;
     }
 
     public ReadMovieDTO createMovie(@Valid CreatMovieDTO movie) {
@@ -57,7 +58,7 @@ public class MovieService {
         List<Genre> existGenres = genreRepository.findAllById(genresIds);
 
         if (genresIds.size() != existGenres.size()) {
-            throw new InvalidGenreException("Invalid genre id");
+            throw new NotFoundException("Invalid genre id");
         }
 
         for (Genre genre : existGenres) {
@@ -73,7 +74,7 @@ public class MovieService {
         List<CastMember> existMembers = castMemberRepository.findAllById(castMembersIds);
 
         if (existMembers.size() != castMembersIds.size()) {
-            throw new InvalidCastMember("Invalid member id");
+            throw new NotFoundException("Invalid member id");
         }
 
         for (CastMember member : existMembers) {
@@ -104,7 +105,7 @@ public class MovieService {
     public ReadMovieDTO getMovieByID(Long movieId) {
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() ->
-                        new InvalidMovieId("Movie with id " + movieId + " not found")
+                        new NotFoundException("Movie not found")
                 );
         return readMovie(movie);
 
@@ -112,15 +113,17 @@ public class MovieService {
 
     public void deleteMovie(Long movieId) {
         Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new InvalidMovieId("Movie not found"));
+                .orElseThrow(() -> new NotFoundException("Movie not found"));
         movie.setDeletedAt(LocalDateTime.now());
+        screeningRepository.softDeleteByMovieId(movieId, LocalDateTime.now());
+
     }
 
 
     public ReadMovieDTO updateMovie(Long movieId, UpdateMovieDTO dto) {
 
         Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new InvalidMovieId("Movie not found"));
+                .orElseThrow(() -> new NotFoundException("Movie not found"));
 
         if (dto.getMovieName() != null) {
             movie.setMovieName(dto.getMovieName());

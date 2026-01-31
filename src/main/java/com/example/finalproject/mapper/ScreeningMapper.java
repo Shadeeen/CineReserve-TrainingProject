@@ -1,5 +1,6 @@
-package com.example.finalproject.dto.screening;
+package com.example.finalproject.mapper;
 
+import com.example.finalproject.dto.screening.ScreeningResponseDto;
 import com.example.finalproject.model.Screening;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,5 +17,4 @@ public interface ScreeningMapper {
     @Mapping(source = "movie.duration", target = "movieDuration")
     ScreeningResponseDto toDto(Screening screening);
 
-    List<ScreeningResponseDto> toDtoList(List<Screening> screenings);
 }

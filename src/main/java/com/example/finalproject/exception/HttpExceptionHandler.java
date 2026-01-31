@@ -12,9 +12,9 @@ import java.util.Map;
 @ControllerAdvice
 public class HttpExceptionHandler {
 
-    @ExceptionHandler(InvalidUser.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidUser(InvalidUser ex) {
 
+    @ExceptionHandler(TokenException.class)
+    public ResponseEntity<Map<String, Object>> handleTokenException(TokenException ex) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of(
@@ -25,8 +25,21 @@ public class HttpExceptionHandler {
                 ));
     }
 
-    @ExceptionHandler(InvalidMovieId.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidMovieId(InvalidMovieId ex) {
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Map<String, Object>> handleBadRequestException(BadRequestException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of(
+                        "timestamp", LocalDateTime.now(),
+                        "status", 400,
+                        "error", "Bad Request",
+                        "message", ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleNotFoundException(NotFoundException ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of(
@@ -37,53 +50,6 @@ public class HttpExceptionHandler {
                 ));
     }
 
-    @ExceptionHandler(InvalidGenreException.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidGenre(InvalidGenreException ex) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(Map.of(
-                        "timestamp", LocalDateTime.now(),
-                        "status", 400,
-                        "error", "Bad Request",
-                        "message", ex.getMessage()
-                ));
-    }
-
-    @ExceptionHandler(InvalidCastMember.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidCastMember(InvalidCastMember ex) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(Map.of(
-                        "timestamp", LocalDateTime.now(),
-                        "status", 400,
-                        "error", "Bad Request",
-                        "message", ex.getMessage()
-                ));
-    }
-
-    @ExceptionHandler(InvalidRefreshTokenException.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidRefresh(InvalidRefreshTokenException ex) {
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of(
-                        "timestamp", LocalDateTime.now(),
-                        "status", 401,
-                        "error", "Unauthorized",
-                        "message", ex.getMessage()
-                ));
-    }
-
-    @ExceptionHandler(NotARefreshTokenException.class)
-    public ResponseEntity<Map<String, Object>> handleNotRefresh(NotARefreshTokenException ex) {
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of(
-                        "timestamp", LocalDateTime.now(),
-                        "status", 401,
-                        "error", "Unauthorized",
-                        "message", ex.getMessage()
-                ));
-    }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Map<String, Object>> handleDateTypeMismatch(MethodArgumentTypeMismatchException ex) {
@@ -95,56 +61,6 @@ public class HttpExceptionHandler {
                         "status", 400,
                         "error", "Bad Request",
                         "message", "Invalid date"
-                ));
-
-
-    }
-    @ExceptionHandler(InvalidSeatId.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidSeat(InvalidSeatId ex) {
-
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of(
-                        "timestamp", LocalDateTime.now(),
-                        "status", 401,
-                        "error", "Unauthorized",
-                        "message", ex.getMessage()
-                ));
-    }
-
-    @ExceptionHandler(InvalidHallId.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidHallId(InvalidHallId ex) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(Map.of(
-                        "timestamp", LocalDateTime.now(),
-                        "status", 404,
-                        "error", "Not Found",
-                        "message", ex.getMessage()
-                ));
-    }
-
-    @ExceptionHandler(OverLappingScreening.class)
-    public ResponseEntity<Map<String, Object>> handleOverLappingScreening(OverLappingScreening ex) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(Map.of(
-                        "timestamp", LocalDateTime.now(),
-                        "status", 400,
-                        "error", "Bad Request",
-                        "message", ex.getMessage()
-                ));
-    }
-
-    @ExceptionHandler(InvalidDate.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidDate(InvalidDate ex) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(Map.of(
-                        "timestamp", LocalDateTime.now(),
-                        "status", 400,
-                        "error", "Bad Request",
-                        "message", ex.getMessage()
                 ));
     }
 }

@@ -1,4 +1,6 @@
-package com.example.finalproject.dto.user;
+package com.example.finalproject.mapper;
+import com.example.finalproject.dto.user.RequestUserDTO;
+import com.example.finalproject.dto.user.ResponseUserDTO;
 import com.example.finalproject.model.User;
 import org.mapstruct.Mapper;
 

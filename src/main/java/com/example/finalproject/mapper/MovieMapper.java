@@ -1,5 +1,7 @@
-package com.example.finalproject.dto.movie;
+package com.example.finalproject.mapper;
 
+import com.example.finalproject.dto.movie.CreatMovieDTO;
+import com.example.finalproject.dto.movie.ReadMovieDTO;
 import com.example.finalproject.model.Movie;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

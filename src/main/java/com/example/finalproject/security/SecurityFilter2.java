@@ -51,8 +51,9 @@ public class SecurityFilter2 implements Filter {
 
         String role = JwtUtil.extractRole(token);
         String method = httpRequest.getMethod();
+        String requestURI = httpRequest.getRequestURI();
 
-        if ((method.equals("POST") || method.equals("PUT") || method.equals("PATCH") || method.equals("DELETE")) && !role.equals("ADMIN")) {
+        if (((method.equals("POST") || method.equals("PUT") || method.equals("PATCH") || method.equals("DELETE")) && !role.equals("ADMIN")) && (!requestURI.startsWith("/bookings"))) {
             httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             httpResponse.getWriter().write("Access denied: ADMIN only");
             return;

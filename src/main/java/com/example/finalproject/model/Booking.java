@@ -5,15 +5,7 @@ import org.hibernate.annotations.Where;
 
 
 @Entity
-@Table(
-        name = "booking",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uk_screening_seat",
-                        columnNames = {"screening_id", "seat_id"}
-                )
-        }
-)
+@Table(name = "booking", uniqueConstraints = {@UniqueConstraint (columnNames = {"screening_id", "seat_id"})})
 @Where(clause = "deleted_at IS NULL")
 public class Booking extends Basic {
 
@@ -22,7 +14,7 @@ public class Booking extends Basic {
     private Long id;
 
 
-    private Long bookingReference;
+    private String bookingReference;
 
     @ManyToOne
     @JoinColumn(name = "seat_id")
@@ -44,11 +36,11 @@ public class Booking extends Basic {
         this.id = id;
     }
 
-    public Long getBookingReference() {
+    public String getBookingReference() {
         return bookingReference;
     }
 
-    public void setBookingReference(Long bookingReference) {
+    public void setBookingReference(String bookingReference) {
         this.bookingReference = bookingReference;
     }
 

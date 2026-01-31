@@ -19,10 +19,10 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
               FROM Movie m
               LEFT JOIN m.movieGenres g
               LEFT JOIN m.movieCastMembers c
-              WHERE (:fromDate IS NULL OR m.releaseDate >= :fromDate)
-              AND (:toDate IS NULL OR m.releaseDate <= :toDate)
+              WHERE (m.releaseDate >=  COALESCE(:fromDate, m.releaseDate))
+              AND (m.releaseDate <= COALESCE(:toDate, m.releaseDate))
               AND (:genres IS NULL OR g.genre.genreName IN :genres )
-              AND (:member IS NULL OR c.castMember.CastMemberName LIKE CONCAT('%', :member, '%'))
+              AND (:member IS NULL OR c.castMember.CastMemberName LIKE CONCAT('%', CAST(:member AS string), '%'))
             """)
     Page<Movie> movieSearch(
             @Param("fromDate") LocalDate fromDate,

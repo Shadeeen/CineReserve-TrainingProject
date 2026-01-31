@@ -1,6 +1,7 @@
 package com.example.finalproject.service;
 
-import com.example.finalproject.exception.InvalidMovieId;
+import com.example.finalproject.exception.BadRequestException;
+import com.example.finalproject.exception.NotFoundException;
 import com.example.finalproject.model.Seat;
 import com.example.finalproject.repository.SeatRepository;
 import jakarta.transaction.Transactional;
@@ -18,10 +19,11 @@ public class SeatService {
     }
 
     public Seat updateSeat(Long id, String status) {
+        Seat seat = seatRepository.findById(id).orElseThrow(() -> new NotFoundException("seat not found"));
+
         if (!(status.equals("Maintenance") || status.equals("Available"))) {
-            throw new InvalidMovieId("seat status should be Maintenance or Active");
+            throw new BadRequestException("seat status should be Maintenance or Active");
         }
-        Seat seat = seatRepository.findById(id).orElseThrow(() -> new InvalidMovieId("seat not found"));
 
         seat.setStatus(status);
         return seatRepository.save(seat);

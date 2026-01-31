@@ -1,6 +1,6 @@
 package com.example.finalproject.controller;
-import com.example.finalproject.dto.auth.LoginUser;
-import com.example.finalproject.dto.user.UserMapper;
+import com.example.finalproject.dto.user.LoginUser;
+import com.example.finalproject.mapper.UserMapper;
 import com.example.finalproject.service.LoginService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
